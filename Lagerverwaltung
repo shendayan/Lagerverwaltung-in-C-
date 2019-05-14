@@ -1,0 +1,233 @@
+/* ######################################################
+Lagerverwaltung in C# - by Shendayan
+###################################################### */
+
+using System;
+using System.Threading;
+namespace Cshp04c_03_03
+{
+    class Program
+    {
+        struct Kiste
+        {
+            public int ID;
+            public double Breite;
+            public double Hoehe;
+            public double Laenge;
+            public double Volumen;
+        }
+        static void Kiste_hinzu(Kiste[] Kisten)
+        {
+            Console.Clear();
+            Console.WriteLine("\tEINLAGERUNG EINER NEUEN KISTE\n\n");
+            for (int i = 0; i < Kisten.Length; i++)
+            {
+                if (Kisten[i].ID == 0)
+                {
+                    Kisten[i].ID = i + 1;
+                    Console.Write("Bitte geben Sie die Länge der Kiste an (cm): ");
+                    Kisten[i].Laenge = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Bitte geben Sie die Breite der Kiste an (cm): ");
+                    Kisten[i].Breite = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Bitte geben Sie die Höhe der Kiste an (cm): ");
+                    Kisten[i].Hoehe = Convert.ToDouble(Console.ReadLine());
+                    Kisten[i].Volumen = Kisten[i].Laenge * Kisten[i].Breite * Kisten[i].Hoehe;
+                    Console.WriteLine("Die Kiste Nr. {0} hat ein Volumen von {1}ccm.", Kisten[i].ID, Kisten[i].Volumen);
+                    Thread.Sleep(1000);
+                    break;
+                }
+            }
+            Console.Write("Kiste hinzugefügt.");
+            Thread.Sleep(1000);
+        }
+        static void Kiste_löschen(Kiste[] Kisten)
+        {
+            Console.Clear();
+            Console.WriteLine("\tLÖSCHEN EINER KISTE\n\n");
+            Console.Write("Welche Kisten-ID soll gelöscht werden? ");
+            int ID = (Convert.ToInt32(Console.ReadLine())) - 1;
+            try
+            {
+                if (Kisten[ID].ID == 0)
+                {
+                    Console.WriteLine("Diese Kiste existiert nicht.");
+                    Thread.Sleep(2000);
+                }
+                else
+                {
+                    Kisten[ID].ID = 0;
+                    Kisten[ID].Breite = 0;
+                    Kisten[ID].Hoehe = 0;
+                    Kisten[ID].Laenge = 0;
+                    Kisten[ID].Volumen = 0;
+                    Console.Write("Kiste Nr.{0} wurde gelöscht.", ID + 1);
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Die maximale ID ist 75!");
+            }
+            Thread.Sleep(1000);
+        }
+        static void Kiste_ändern(Kiste[] Kisten)
+        {
+            Console.Clear();
+            Console.WriteLine("\tÄNDERN EINER KISTE\n\n");
+            Console.Write("Welche Kisten-ID soll geändert werden? ");
+            int ID = (Convert.ToInt32(Console.ReadLine())) - 1;
+            try
+            {
+                if (Kisten[ID].ID == 0)
+                {
+                    Console.WriteLine("Diese Kiste existiert nicht.");
+                    Thread.Sleep(2000);
+                }
+                else
+                {
+                    Console.WriteLine("Die ID einer Kiste ist systemseitig vergeben und kann nicht geändert werden.");
+                    Console.Write("Länge der Kiste (alter Wert {0}): ", Kisten[ID].Laenge);
+                    Kisten[ID].Laenge = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Breite der Kiste (alter Wert {0}): ", Kisten[ID].Breite);
+                    Kisten[ID].Breite = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Höhe der Kiste (alter Wert {0}): ", Kisten[ID].Hoehe);
+                    Kisten[ID].Hoehe = Convert.ToDouble(Console.ReadLine());
+                    Kisten[ID].Volumen = Kisten[ID].Laenge * Kisten[ID].Breite * Kisten[ID].Hoehe;
+                    Console.WriteLine("\nDaten der Kiste Nr.{0} wurden geändert.", Kisten[ID].ID);
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Die maximale ID ist 75!");
+            }
+            Thread.Sleep(1000);
+        }
+        static void Kiste_anzeigen(Kiste[] Kisten)
+        {
+            Console.Clear();
+            Console.WriteLine("\tKISTENDATEN ANZEIGEN\n\n");
+            Console.Write("Welche Kiste (ID) soll angezeigt werden? ");
+            int i = (Convert.ToInt32(Console.ReadLine())) - 1;
+
+            try
+            {
+                if (Kisten[i].ID == 0)
+                {
+                    Console.WriteLine("Diese Kiste existiert nicht.");
+                    Thread.Sleep(2000);
+                }
+                else
+                {
+                    Console.WriteLine("Kiste Nr.{0}", Kisten[i].ID);
+                    Console.WriteLine("Länge: \t\t{0}", Kisten[i].Laenge);
+                    Console.WriteLine("Breite: \t{0}", Kisten[i].Breite);
+                    Console.WriteLine("Höhe: \t\t{0}", Kisten[i].Hoehe);
+                    Console.WriteLine("Volumen: \t{0}", Kisten[i].Volumen);
+                    Console.WriteLine("\nENDE DER KISTENDATEN (Weiter mit Enter)");
+                    Console.ReadKey();
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Die maximale ID ist 75!");
+            }
+            Thread.Sleep(1000);
+        }
+        static void Kisten_listen(Kiste[] Kisten)
+        {
+            Console.Clear();
+            Console.WriteLine("\tKISTENDATEN AUFLISTEN\n\n");
+            for (int i = 0; i < Kisten.Length; i++)
+            {
+                if (Kisten[i].ID != 0)
+                {
+                    Console.WriteLine("Kiste Nr.{0}", Kisten[i].ID);
+                    Console.WriteLine("Länge: \t\t{0}", Kisten[i].Laenge);
+                    Console.WriteLine("Breite: \t{0}", Kisten[i].Breite);
+                    Console.WriteLine("Höhe: \t\t{0}", Kisten[i].Hoehe);
+                    Console.WriteLine("Volumen: \t{0}", Kisten[i].Volumen);
+                    Console.WriteLine("---------------------------------------");
+                }
+            }
+            Console.WriteLine("\nENDE DER AUFLISTUNG (Weiter mit Enter)");
+            Console.ReadKey();
+            Thread.Sleep(150);
+        }
+        static void Main(string[] args)
+        {
+            //Array mit 75 Datensätzen anlegen
+            Kiste[] Kisten = new Kiste[75];
+            //Alle 75 Kisten mit 0 initialisieren
+            for(int i = 0; i < 75; i++)
+            {
+                Kisten[i].ID = 0;
+                Kisten[i].Breite = 0;
+                Kisten[i].Hoehe = 0;
+                Kisten[i].Laenge = 0;
+                Kisten[i].Volumen = 0;
+            }
+            bool flag = true;
+            while (flag==true)
+            {
+                Console.Clear();
+                Console.WriteLine("# # # # # LAGERVERWALTUNG v1 # # # # #\n\n");
+                Console.WriteLine("HAUPTMENÜ");
+                Console.WriteLine("1 Neue Kiste einlagern");
+                Console.WriteLine("2 Kiste löschen");
+                Console.WriteLine("3 Kiste ändern");
+                Console.WriteLine("4 Kiste anzeigen");
+                Console.WriteLine("5 Kisten auflisten");
+                Console.WriteLine("0 Beenden\n");
+                Console.Write("Bitte geben Sie Ihre Auswahl ein: ");
+
+                try
+                {
+                    switch (Convert.ToInt32(Console.ReadLine()))
+                    {
+                        case 1: //Kiste hinzufügen
+                            {
+                                Kiste_hinzu(Kisten);
+                                break;
+                            }
+                        case 2: //Kiste löschen
+                            {
+                                Kiste_löschen(Kisten);
+                                break;
+                            }
+                        case 3: //Kiste ändern
+                            {
+                                Kiste_ändern(Kisten);
+                                break;
+                            }
+                        case 4: //Kiste anzeigen
+                            {
+                                Kiste_anzeigen(Kisten);
+                                break;
+                            }
+                        case 5: //Kisten auflisten
+                            {
+                                Kisten_listen(Kisten);
+                                break;
+                            }
+                        case 0: //Programm beenden
+                            {
+                                Console.WriteLine("\n\nAuf Wiedersehen!");
+                                flag = false;
+                                break;
+                            }
+                        default:
+                            {
+                                Console.WriteLine("\nUngültige Auswahl!");
+                                Thread.Sleep(2000);
+                                break;
+                            }
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Fehlerhafte Eingabe!");
+                    Thread.Sleep(2000);
+                }
+            }
+        }
+    }
+}
